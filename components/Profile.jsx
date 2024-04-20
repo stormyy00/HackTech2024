@@ -1,15 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Animated, Image } from 'react-native';
+
 
 const Profile = ({ mock }) => {
-  const [flipped, setFlipped] = useState(Array(mock.length).fill(false));
+  const [flippedIndex, setFlippedIndex] = useState(null);
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
 
   const flipCard = (index) => {
-    setFlipped((prevFlipped) => {
-      const newFlipped = [...prevFlipped];
-      newFlipped[index] = !prevFlipped[index];
-      return newFlipped;
-    });
+    if (flippedIndex === index) {
+      // Reset the flip state if the clicked card is already flipped
+      setFlippedIndex(null);
+      Animated.timing(animatedValue, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      // Flip the clicked card
+      setFlippedIndex(index);
+      Animated.timing(animatedValue, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    }
   };
 
   return (
@@ -17,14 +31,16 @@ const Profile = ({ mock }) => {
       <View style={styles.container}>
         {mock.map((item, index) => (
           <TouchableOpacity key={index} onPress={() => flipCard(index)} activeOpacity={0.8}>
-            <Animated.View className=""style={styles.cardContainer}>
+            <Animated.View style={[styles.cardContainer]}>
               <View style={styles.face}>
                 <Text>{item.name}</Text>
                 <Text>{item.emoji}</Text>
                 <Text>{item.image}</Text>
+                {/* Assuming item.image is a valid image source */}
+                {/* <Image source={} style={{ width: 100, height: 100 }} /> */}
               </View>
-              <View style={[styles.back, flipped[index] ? styles.visible : styles.hidden]}>
-                <Text className="text-black">LOL</Text>
+              <View style={[styles.back, flippedIndex === index ? styles.visible : styles.hidden]}>
+                <Text style={{ color: 'black' }}>LOL</Text>
               </View>
             </Animated.View>
           </TouchableOpacity>
@@ -80,7 +96,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    transform: [{ rotateY: '180deg' }],
+    transform: [{ rotateY: '0deg' }],
   },
   visible: {
     transform: [{ rotateY: '0deg' }],
