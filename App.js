@@ -1,24 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Navigation from './navigation/navigation';
-import HomeScreen from "./screens/HomeScreen.js";
+import React from 'react';
+import { ApplicationProvider } from '@ui-kitten/components';
+import * as eva from '@eva-design/eva';
+import theme from './constants/theme.json';
+import LoginScreen from './screens/LoginScreen';
+import { AuthProvider } from './context/AuthContext'; // Make sure the path is correct
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      
-      <Text>Open up App.js to start working on your app!</Text>
-      <HomeScreen/>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default () => (
+  <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
+    {/* <AuthProvider> */}
+      <LoginScreen />
+    {/* </AuthProvider> */}
+  </ApplicationProvider>
+);
