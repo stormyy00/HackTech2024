@@ -62,12 +62,15 @@ const SignUpScreen = () => {
       <Card style={styles.card}>
         <Text category='h1' style={styles.title}>Sign Up</Text>
         <Input
-          value={email}
-          label='Email'
-          placeholder='Enter your email'
-          onChangeText={setEmail}
-          style={styles.input}
+        value={email}
+        label='Email'
+        placeholder='Enter your email'
+        onChangeText={setEmail}
+        style={styles.input}
+        autoCapitalize="none"  // Ensures that the input does not automatically capitalize
+        keyboardType="email-address"  // Optionally set the keyboard type to email-address
         />
+
         <Input
           value={password}
           label='Password'
