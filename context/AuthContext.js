@@ -1,3 +1,4 @@
+
 import React, { createContext, useState, useEffect } from 'react';
 import firebase from '../config/FirebaseConfig';
 
@@ -16,4 +17,6 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-}
+
+};
+
