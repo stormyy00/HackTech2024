@@ -22,13 +22,9 @@
     "@ui-kitten/moment": "^5.3.1",
     "expo": "~50.0.14",
     "expo-camera": "^14.1.3",
-<<<<<<< HEAD
     "expo-file-system": "^16.0.9",
     "expo-media-library": "^15.9.2",
     "expo-sharing": "^11.10.0",
-=======
-    "expo-image-picker": "^14.7.1",
->>>>>>> 6b23c49c0cb5e7ea4d77c1ed44a71526bebcf6d2
     "expo-status-bar": "~1.11.1",
     "firebase": "^10.11.0",
     "nativewind": "^2.0.11",
@@ -41,14 +37,8 @@
     "react-native-safe-area-context": "4.8.2",
     "react-native-screens": "~3.29.0",
     "react-native-svg": "^15.1.0",
-<<<<<<< HEAD
-    "react-native-vision-camera": "^3.9.2",
-    "react-native-web": "~0.19.6",
-    "tailwind-rn": "^4.2.0"
-=======
     "react-native-tab-view": "^3.5.2",
     "react-native-web": "~0.19.6"
->>>>>>> 6b23c49c0cb5e7ea4d77c1ed44a71526bebcf6d2
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
