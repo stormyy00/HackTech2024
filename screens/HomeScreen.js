@@ -11,8 +11,12 @@ import { MOCK } from '../data/mock.js'
 export default function HomeScreen() {
   return (
     
-    <View className="flex flex-col justify-center">
-      <Text>HomeScreen</Text>
+<<<<<<< HEAD
+    <View className="flex flex-col justify-center mt-2">
+=======
+    <View className="flex flex-col justify-center bg-[#FBAB7E]">
+      {/* <Text>HomeScreen</Text> */}
+>>>>>>> 3045f44612a2a3d5a618069085a571d67d55bbb9
 
       {/* {
           MOCK.map((item, index) => ( */}
