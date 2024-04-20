@@ -2,35 +2,20 @@ from flask import Flask, request, send_from_directory, abort, jsonify
 import os
 from werkzeug.utils import secure_filename
 from transcribe import *
-from NRC_analyze import *
+# from NRC_analyze import *
+from ChatGPT_text import *
+import json
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'upload'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp3', 'wav'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB Max Upload
+app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # 16MB Max Upload
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-# @app.route('/upload', methods=['POST'])
-# def upload_file():
-#     if 'file' not in request.files:
-#         return 'No file part'
-#     file = request.files['file']
-#     if file.filename == '':
-#         return 'No selected file'
-#     if file and allowed_file(file.filename):
-#         filename = secure_filename(file.filename)
-#         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-#         file.save(file_path)
-#         file_path = os.path.join(os.getcwd(), file_path)
-#         print(transcribe(file_path))
-#         return f'File {filename} uploaded successfully.'
-#     else:
-#         return 'Invalid file type'
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -64,23 +49,22 @@ def upload_file():
         file_path = os.path.join(user_dir, filename)
         file.save(file_path)
         file_path = os.path.join(os.getcwd(), file_path)
-        text_path = file_path[:-4:] + ".txt"
+        raw_path = file_path[:-4:]
+        text_path = raw_path + ".txt"
         f = open(text_path, "w")
-        f.write(transcribe(file_path))
+        text_data = transcribe(file_path)
+        f.write(text_data)
         f.close()
-        print(analyze(text_path))
+        emotions = prompt(text_data)
+        with open(raw_path + ".json", "w") as outfile:
+            json.dump(emotions, outfile)
+        # print(analyze(text_path))
         print(f"File {filename} uploaded to {user_dir} by user: {username}")
         return jsonify({"message": f"File {filename} uploaded successfully to {username}'s directory."})
     
     # If the file type is not allowed, return an error
     return jsonify({"error": "Invalid file type"}), 400
 
-# @app.route('/files/<filename>')
-# def download_file(filename):
-#     if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], filename)):
-#         return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-#     else:
-#         abort(404)
 
 @app.route('/files/<filename>', methods=['GET'])
 def download_file(filename):

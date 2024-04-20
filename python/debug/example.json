@@ -1,0 +1,19 @@
+{
+    "classifications": [
+      {
+        "category": "Positive",
+        "emotion": "Happy",
+        "confidence": 0.95
+      },
+      {
+        "category": "Positive",
+        "emotion": "Gratitude",
+        "confidence": 0.75
+      },
+      {
+        "category": "Positive",
+        "emotion": "Excitement",
+        "confidence": 0.70
+      }
+    ]
+  }
