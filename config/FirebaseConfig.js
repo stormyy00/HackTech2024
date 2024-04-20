@@ -1,4 +1,4 @@
-// config/firebaseConfig.js
+
 import { initializeApp, getApps } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -17,4 +17,6 @@ let firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getA
 const auth = getAuth(firebase_app); // Use firebase_app instead of app
 console.log("Firebase app initialized:", firebase_app);
 console.log("Firebase auth instance:", auth);
+
 export { firebase_app, auth, signInWithEmailAndPassword }; // Export both for use in other parts of your app
+
