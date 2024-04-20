@@ -5,10 +5,15 @@ import { MOCK } from '../data/mock.js'
 
 const Profiles = () => {
   return (
-    <View>
+    <View className="mt-3 ">
       <Profile mock={MOCK} />
     </View>
   )
 }
+
+// flex: 1,
+// backgroundColor: '#FBAB7E',
+// alignItems: 'center',
+// justifyContent: 'center',
 
 export default Profiles

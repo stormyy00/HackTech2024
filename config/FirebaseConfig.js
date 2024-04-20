@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAfO5_K8-wMJhMDnzhwj_X56yhNcpEcMB4",
@@ -13,7 +13,8 @@ const firebaseConfig = {
 
 console.log("Firebase Config: ", firebaseConfig);
 let firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-const auth = getAuth(firebase_app); // Use firebase_app instead of app
+const auth = getAuth(firebase_app); 
 console.log("Firebase app initialized:", firebase_app);
 console.log("Firebase auth instance:", auth);
-export { firebase_app, auth, signInWithEmailAndPassword };
+
+export { firebase_app, auth, signInWithEmailAndPassword, createUserWithEmailAndPassword };
