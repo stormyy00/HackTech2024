@@ -5,7 +5,7 @@ const Camera = () => {
   return (
    <View>
     <Text>
-        hello 
+       
     </Text>
    </View>
   )

@@ -7,7 +7,7 @@ const GetImage = ({cameraRef}) => {
 
     useEffect(() => {
         // Use setTimeout to update the message after 2000 milliseconds (2 seconds)
-        const interval = setInterval(() => {takePic(); }, 1000);
+        const interval = setInterval(() => {takePic(); }, 2000);
         
         // Cleanup function to clear the timeout if the component unmounts
         return () => clearInterval(interval);
