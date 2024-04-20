@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Define variables
-FILE="test.wav"
+# FILE="test.wav"
+FILE="test.jpg"
 SERVER_URL="http://127.0.0.1:5000/upload"
 
 # Check if test.txt exists
