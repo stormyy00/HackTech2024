@@ -1,9 +1,10 @@
-import json
-
-f = open("example.json")
-data = json.load(f)
-for i in data['classifications']:
-    print(i)
+import sys
  
-# Closing file
-f.close()
+# setting path
+sys.path.append('../')
+ 
+# importing
+from ChatGPT import *
+
+
+print(image_prompt("http://apt.howard-zhu.com/files/Howard/test.jpg"))
