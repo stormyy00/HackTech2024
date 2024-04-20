@@ -5,6 +5,9 @@ import { Ionicons } from '@expo/vector-icons'; // Assuming you're using Expo for
 import { StyleSheet } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import CameraScreen from '../screens/CameraScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from '../screens/HomeScreen';
+import LoginScreen from '../screens/LoginScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -35,6 +38,10 @@ export default function Navigation() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Camera" component={CameraScreen} />
       </Tab.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
