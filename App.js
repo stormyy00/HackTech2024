@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer className="black">
+    <NavigationContainer>
       <Tab.Navigator
         tabBarOptions={{
           activeTintColor: '#007AFF', // Color for active tab
@@ -46,6 +46,7 @@ export default function App() {
   );
 }
 function LoginTab() {
+
   return (
     <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
       <LoginScreen />
@@ -55,7 +56,7 @@ function LoginTab() {
 
 const styles = StyleSheet.create({
   tabBarStyle: {
-    backgroundColor: '#FFFFFF', // Background color of the tab bar
+    backgroundColor: '#779ba1', // Background color of the tab bar
     borderTopWidth: 1,
     borderTopColor: '#E0E0E0', // Top border color of the tab bar
   },

@@ -11,8 +11,7 @@ import { MOCK } from '../data/mock.js'
 export default function HomeScreen() {
   return (
     
-    <View className="flex flex-col justify-center">
-      <Text>HomeScreen</Text>
+    <View className="flex flex-col justify-center mt-2">
 
       {/* {
           MOCK.map((item, index) => ( */}
