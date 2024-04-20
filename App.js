@@ -1,24 +1,48 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Navigation from './navigation/navigation';
-import HomeScreen from "./screens/HomeScreen.js";
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons'; // Assuming you're using Expo for icons
+import { StyleSheet } from 'react-native';
+import HomeScreen from './screens/HomeScreen';
+import CameraScreen from './screens/CameraScreen';
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      
-      <Text>Open up App.js to start working on your app!</Text>
-      <HomeScreen/>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        tabBarOptions={{
+          activeTintColor: '#007AFF', // Color for active tab
+          inactiveTintColor: '#8E8E93', // Color for inactive tab
+          style: styles.tabBarStyle,
+        }}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            let iconSize = 24; // Set the default icon size
+        
+            if (route.name === 'Home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'Camera') {
+              iconName = focused ? 'camera' : 'camera-outline';
+            }
+        
+            return <Ionicons name={iconName} size={iconSize} color={color} />;
+          },
+        })}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Camera" component={CameraScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  tabBarStyle: {
+    backgroundColor: '#FFFFFF', // Background color of the tab bar
+    borderTopWidth: 1,
+    borderTopColor: '#E0E0E0', // Top border color of the tab bar
   },
 });
