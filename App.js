@@ -16,6 +16,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import AudioScreen from './screens/AudioScreen';
 
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ export default function App() {
     <AuthProvider>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
+
         <Navigation />
       </ApplicationProvider>
     </AuthProvider>

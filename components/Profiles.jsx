@@ -5,7 +5,7 @@ import { MOCK } from '../data/mock.js'
 
 const Profiles = () => {
   return (
-    <View className="mt-3 ">
+    <View className="mt-2  ">
       <Profile mock={MOCK} />
     </View>
   )
