@@ -14,6 +14,7 @@ import LoginScreen from './screens/LoginScreen';
 import GroupScreen from './screens/GroupScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import UserProfile from "./screens/UserProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -51,6 +52,7 @@ export default function App() {
             <Tab.Screen name="Groups" component={GroupScreen} />
             <Tab.Screen name="Sign Up" component={SignUpScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
+            <Tab.Screen name="User" component={UserProfile} />
           </Tab.Navigator>
         </NavigationContainer>
       </ApplicationProvider>
