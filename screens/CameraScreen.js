@@ -4,12 +4,14 @@ import { useEffect, useRef, useState } from 'react';
 import { Camera, CameraType  } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
+import { AuthContext } from '../context/AuthContext';
 
 
 export default function App() { 
   let cameraRef = useRef();
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(CameraType.front);   // Default to front camera
+
 
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
@@ -37,12 +39,12 @@ export default function App() {
     };
 
     
-
     let newPhoto = await cameraRef.current.takePictureAsync(options);
+    setPhoto(newPhoto);
     const formData = new FormData();
     formData.append('file', {
       uri: newPhoto.uri,
-      name: 'photo.jpg',
+      name: '${currentUser.uid}',
       type: 'image/jpeg'
     });
 
@@ -63,7 +65,7 @@ export default function App() {
       console.error('Error:', error);
     });
 
-    setPhoto(newPhoto);
+    
   };
 
 
@@ -113,19 +115,22 @@ export default function App() {
         <Button title="Discard" onPress={() => setPhoto(undefined)} />
       </SafeAreaView>
     );
+    
   }
 
 
   return (
-    
-    <Camera style={styles.container} ref={cameraRef}>
-      <View style={styles.buttonContainer}>
-        <Button title="Flip Camera" onPress={toggleCameraType} />
-        <Button title="Take Pic" onPress={takePic} />
-      </View>
-      <StatusBar style="auto" />
-    </Camera>
+    <Camera style={styles.container} type={type} ref={cameraRef}>
+    <View style={styles.buttonContainer}>
+      <Button title="Flip Camera" onPress={toggleCameraType} />
+      <Button title="Take Pic" onPress={takePic} />
+    </View>
+    <StatusBar style="auto" />
+  </Camera>
   );
+
+  
+
 }
 
 const styles = StyleSheet.create({
