@@ -45,7 +45,7 @@ export default function App() {
     const formData = new FormData();
     formData.append('file', {
       uri: newPhoto.uri,
-      name: 'Mood',
+      name: 'Mood.jpeg',
       type: 'image/jpeg'
     });
 

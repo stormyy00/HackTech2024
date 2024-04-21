@@ -18,7 +18,15 @@ import UserProfile from "./screens/UserProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
+
 export default function App() {
+  const requestUser = async () => {
+    const authorizationStatus = await messaging().requestPermission();
+
+  if (authorizationStatus) {
+    console.log('Permission status:', authorizationStatus);
+  }
+  };
   return (
     <AuthProvider>
       <IconRegistry icons={EvaIconsPack} />
