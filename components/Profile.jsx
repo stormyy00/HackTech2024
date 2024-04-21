@@ -49,7 +49,7 @@ import { useNavigation } from '@react-navigation/native';
             <TouchableOpacity key={index} onPress={() => flipCard(index)} activeOpacity={0.8}>
               <Animated.View style={[styles.cardContainer]} className="">
               {flippedIndex !== null && (
-                <TouchableOpacity onPress={() => navigation.navigate('Camera')} style={[styles.profileText]} className={`${flippedIndex !== index ? 'hidden' : 'text-blue-500 -mt-12 w-full flex flex-row justify-between items-center gap'}`}>
+                <TouchableOpacity onPress={() => navigation.navigate('User')} style={[styles.profileText]} className={`${flippedIndex !== index ? 'hidden' : 'text-blue-500 -mt-12 w-full flex flex-row justify-between items-center gap'}`}>
                   <Image source={require('../assets/china.jpg')} className="w-9 h-9 rounded-3xl"/>
                   <Text className="font-semibold">Time</Text>
                 </TouchableOpacity>
