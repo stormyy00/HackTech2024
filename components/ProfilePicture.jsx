@@ -5,7 +5,7 @@ const ProfilePicture = ({ imageUrl }) => {
     return (
       <View style={styles.container} className="flex flex-row gap-5 w-full mt-3 ml-14">
       <ImageBackground
-        source={require('../assets/bitch.png')}
+        source={require('../assets/china.jpg')}
         style={styles.image}
         resizeMode="cover"
       />
