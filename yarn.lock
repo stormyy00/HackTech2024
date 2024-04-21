@@ -4437,6 +4437,11 @@ expo-linear-gradient@*, expo-linear-gradient@~12.7.2:
   resolved "https://registry.npmjs.org/expo-linear-gradient/-/expo-linear-gradient-12.7.2.tgz"
   integrity sha512-Wwb2EF18ywgrlTodcXJ6Yt/UEcKitRMdXPNyP/IokmeKh4emoq9DxZJpZdkXm3HUTLlbRpi6/t32jrFVqXB9AQ==
 
+expo-media-library@^15.9.2:
+  version "15.9.2"
+  resolved "https://registry.npmjs.org/expo-media-library/-/expo-media-library-15.9.2.tgz"
+  integrity sha512-ExRcCxNO768aWPQr9axuBDQLcFnRTSiqvWZ1XvnopCfZEic04wJ/CPAE1hLqTp7AyYrd6jHpqxa/aNKBAAFVeA==
+
 expo-modules-autolinking@>=0.8.1, expo-modules-autolinking@1.10.3:
   version "1.10.3"
   resolved "https://registry.npmjs.org/expo-modules-autolinking/-/expo-modules-autolinking-1.10.3.tgz"
@@ -4455,6 +4460,11 @@ expo-modules-core@1.11.13:
   integrity sha512-2H5qrGUvmLzmJNPDOnovH1Pfk5H/S/V0BifBmOQyDc9aUh9LaDwkqnChZGIXv8ZHDW8JRlUW0QqyWxTggkbw1A==
   dependencies:
     invariant "^2.2.4"
+
+expo-sharing@^11.10.0:
+  version "11.10.0"
+  resolved "https://registry.npmjs.org/expo-sharing/-/expo-sharing-11.10.0.tgz"
+  integrity sha512-/64RyyKlZ25WfnMXa87HbPXhIIqWwNbIku/RaIYAq4SE0XTRC+KTH3v0XFkfDa+SCG/jKsAr1pJ3vQvsNo1sCQ==
 
 expo-speech@~11.7.0:
   version "11.7.0"
