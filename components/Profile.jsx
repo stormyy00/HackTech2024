@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Animated, Image, Modal, TouchableWithoutFeedback } from 'react-native';
-
+import { useNavigation } from '@react-navigation/native';
   
   const Profile = ({ mock }) => {
     const [flippedIndex, setFlippedIndex] = useState(null);
     const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
     const [prevFlippedIndex, setPrevFlippedIndex] = useState(null);
     const [expandedImage, setExpandedImage] = useState(null);
+    const navigation = useNavigation();
 
     const flipCard = (index) => {
       if (flippedIndex === index) {
@@ -38,17 +39,28 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Animated, Image, 
 
     return (
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-        <View style={styles.container}>
+  <View style={styles.container} className="mt-2">
+    {/* {flippedIndex !== null && (
+      <Text className={`${flippedIndex ? 'mt-4' : 'text-blue-500'}`}>
+        Profile
+      </Text> */}
+    {/* )} */}
           {mock.map((item, index) => (
             <TouchableOpacity key={index} onPress={() => flipCard(index)} activeOpacity={0.8}>
               <Animated.View style={[styles.cardContainer]} className="">
+              {flippedIndex !== null && (
+                <TouchableOpacity onPress={() => navigation.navigate('Camera')} style={[styles.profileText]} className={`${flippedIndex !== index ? 'hidden' : 'text-blue-500 -mt-12 w-full flex flex-row justify-between items-center gap'}`}>
+                  <Image source={require('../assets/china.jpg')} className="w-9 h-9 rounded-3xl"/>
+                  <Text className="font-semibold">Time</Text>
+                </TouchableOpacity>
+              )}
               <View style={styles.face} className="align-middle mt-14 space-y-3" >
                 <View style={styles.userProfile}>
                   <Image source={require('../assets/swag.png')} style={styles.profilePicture} className="ml-1.5 rounded-full" />
                 </View>
                 <View style={styles.userInfo} className="space-y-1 mr-2">
                   <Text style={styles.name}>{item.name}</Text>
-                  <Text style={styles.emoji}>{item.emoji}</Text>
+                  <Text style={styles.emoji} className="text-center">{item.emoji}</Text>
                 </View>
               </View>
                 <View style={[styles.back, flippedIndex === index ? styles.visible : styles.hidden]}>
@@ -96,6 +108,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Animated, Image, 
       width: 160,
       height: 260,
       margin: 12,
+      marginTop: 48,
       backgroundColor: 'white',
       alignItems: 'center',
       justifyContent: 'center',
