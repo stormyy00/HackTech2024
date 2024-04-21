@@ -8,6 +8,8 @@ import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
 const SignUpScreen = () => {
   const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -41,9 +43,12 @@ const SignUpScreen = () => {
       // Create a user document in Firestore
       await setDoc(doc(db, "users", userCredential.user.uid), {
         email: email,
+        firstName: firstName,
+        lastName: lastName,
         createdAt: new Date(),
         groups: [],
-        userMoods: [] // Normally this would be initialized by creating documents in a subcollection
+        userMoods: [],
+        profilePicture: 'misc/emptyprofile.png'
       });
   
       console.log("User profile created in Firestore.");
@@ -61,6 +66,20 @@ const SignUpScreen = () => {
     >
       <Card style={styles.card}>
         <Text category='h1' style={styles.title}>Sign Up</Text>
+        <Input 
+        value = {firstName}
+        label = 'First Name'
+        placeholder = 'Enter your first name'
+        onChangeText = {setFirstName}
+        style = {styles.input}
+        />
+        <Input
+        value = {lastName}
+        label = 'Last Name'
+        placeholder = 'Enter your last name'
+        onChangeText = {setLastName}
+        style = {styles.input}
+        />
         <Input
         value={email}
         label='Email'
@@ -87,6 +106,7 @@ const SignUpScreen = () => {
           onChangeText={setConfirmPassword}
           style={styles.input}
         />
+
         {/* Display error message here */}
         {error ? <Text style={styles.error}>{error}</Text> : null}
         <Button onPress={handleSignUp} style={styles.button}>

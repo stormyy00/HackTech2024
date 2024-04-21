@@ -2,31 +2,28 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import { ApplicationProvider } from '@ui-kitten/components';
+import { IconRegistry, Icon, ApplicationProvider } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import * as eva from '@eva-design/eva';
 import theme from './constants/theme.json';
-import { AuthProvider } from './context/AuthContext'; // Make sure this path is correct
+import { AuthProvider } from './context/AuthContext';
 
 import HomeScreen from './screens/HomeScreen';
 import CameraScreen from './screens/CameraScreen';
 import LoginScreen from './screens/LoginScreen';
 import GroupScreen from './screens/GroupScreen';
 import SignUpScreen from './screens/SignUpScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
     <AuthProvider>
+      <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
         <NavigationContainer>
           <Tab.Navigator
-            tabBarOptions={{
-              activeTintColor: '#007AFF',
-              inactiveTintColor: '#A7C7E7',
-              style: styles.tabBarStyle,
-            }}
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
@@ -36,17 +33,24 @@ export default function App() {
                   case 'Login': iconName = focused ? 'person' : 'person-outline'; break;
                   case 'Groups': iconName = focused ? 'people' : 'people-outline'; break;
                   case 'Sign Up': iconName = focused ? 'person-add' : 'person-add-outline'; break;
+                  case 'Profile': iconName = focused ? 'person' : 'person-outline'; break; // Adjusted for consistency
                   default: iconName = 'alert-circle-outline';
                 }
-                return <Ionicons name={iconName} size={size} color={color} />;
+                return <Icon name={iconName} fill={color} style={{ width: size, height: size }} />;
               },
             })}
+            tabBarOptions={{
+              activeTintColor: '#007AFF',
+              inactiveTintColor: '#A7C7E7',
+              style: styles.tabBarStyle,
+            }}
           >
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Camera" component={CameraScreen} />
             <Tab.Screen name="Login" component={LoginScreen} />
             <Tab.Screen name="Groups" component={GroupScreen} />
             <Tab.Screen name="Sign Up" component={SignUpScreen} />
+            <Tab.Screen name="Profile" component={ProfileScreen} />
           </Tab.Navigator>
         </NavigationContainer>
       </ApplicationProvider>
