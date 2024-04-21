@@ -12,8 +12,8 @@ export default function CameraScreen() {
         {/* <Capture/> */}
 
              {/* <Camera/> */}
-            <ProfilePicture/>
-            <Stats/>
+            {/* <ProfilePicture/>
+            <Stats/> */}
       </View>
     )
   }
