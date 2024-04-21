@@ -4,12 +4,51 @@ import { useEffect, useRef, useState } from 'react';
 import { Camera } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+
+
 
 export default function App() {
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
+
+  let takePic = async () => {
+    let options = {
+      quality: 0.1,
+      base64: false,
+      exif: false,
+    };
+
+    let newPhoto = await cameraRef.current.takePictureAsync(options);
+    const formData = new FormData();
+    formData.append('file', {
+      uri: newPhoto.uri,
+      name: 'photo.jpg',
+      type: 'image/jpeg'
+    });
+
+    // Use fetch to send the photo to your server
+    fetch('http://apt.howard-zhu.com/upload', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Username': 'Howard'  // Assuming your server expects this header
+      },
+      body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
+    setPhoto(newPhoto);
+  };
+
 
   useEffect(() => {
     (async () => {
@@ -26,16 +65,22 @@ export default function App() {
     return <Text>Permission for camera not granted. Please change this in settings.</Text>
   }
 
-  let takePic = async () => {
-    let options = {
-      quality: 1,
-      base64: true,
-      exif: false
-    };
+  // let takePic = async () => {
+  //   let options = {
+  //     quality: 0.1,
+  //     base64: true,
+  //     exif: false
+  //   };
+  //   const db = getFirestore();
 
-    let newPhoto = await cameraRef.current.takePictureAsync(options);
-    setPhoto(newPhoto);
-  };
+  //   let newPhoto = await cameraRef.current.takePictureAsync(options);
+  //   const timestamp = new Date().toISOString().replace(/:/g, '-');  // Formatting timestamp to be file safe
+  //   await setDoc(doc(db, "users", timestamp), {
+  //     photo: newPhoto.base64,  // Storing only base64 string
+  //   });
+  //   console.log("Photo written to Firestore with timestamp:", timestamp);
+  //    setPhoto(newPhoto);
+  // };
 
   if (photo) {
     let sharePic = () => {
