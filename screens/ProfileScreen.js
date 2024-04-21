@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import { Text, Card, Icon } from '@ui-kitten/components';
 import * as ImagePicker from 'expo-image-picker';
 import { getAuth } from 'firebase/auth';
@@ -115,40 +115,43 @@ const ProfileScreen = () => {
             </View>
         );
     }
-    
-    return (
-        <ScrollView contentContainerStyle={styles.scrollViewContainer} style={styles.screenContainer}>
+    const renderHeader = () => (
+        <>
             {isLoading ? (
                 <ActivityIndicator size="large" color="#0000ff" />
             ) : (
                 <>
-                <Card style={styles.card}>
-                    <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
-                        {imageUri ? (
-                            <Image source={{ uri: imageUri }} style={styles.image} />
-                        ) : (
-                            <Icon name="person-outline" fill="#8F9BB3" style={styles.icon} />
-                        )}
-                        <TouchableOpacity style={styles.editIcon} onPress={pickImage}>
-                            <Icon name="edit-2-outline" fill="#8F9BB3" style={{ width: 32, height: 32 }} />
+                    <Card style={styles.card}>
+                        <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
+                            {imageUri ? (
+                                <Image source={{ uri: imageUri }} style={styles.image} />
+                            ) : (
+                                <Icon name="person-outline" fill="#8F9BB3" style={styles.icon} />
+                            )}
+                            <TouchableOpacity style={styles.editIcon} onPress={pickImage}>
+                                <Icon name="edit-2-outline" fill="#8F9BB3" style={{ width: 32, height: 32 }} />
+                            </TouchableOpacity>
                         </TouchableOpacity>
-                    </TouchableOpacity>
-                    <View style={styles.nameContainer}>
-                        <Text style={styles.name}>{firstName} {lastName}</Text>
-                    </View>
-                    {error ? <Text style={styles.errorText}>{error}</Text> : null}
-                </Card>
-                <View style={styles.moodChartContainer}>
-                <MoodChart />
-                </View>
+                        <View style={styles.nameContainer}>
+                            <Text style={styles.name}>{firstName} {lastName}</Text>
+                        </View>
+                        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+                    </Card>
+                    <MoodChart />
                 </>
             )}
-
-        </ScrollView>
-
+        </>
     );
-    
-    
+
+    return (
+        <FlatList
+            ListHeaderComponent={renderHeader}
+            data={[]} // No data is necessary since all content is in header
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.scrollViewContainer}
+            style={styles.screenContainer}
+        />
+    );
 };
 
 const styles = StyleSheet.create({
@@ -164,7 +167,7 @@ const styles = StyleSheet.create({
     },
     // ...existing styles
     moodChartContainer: {
-        width: '100%',
+        width: '85%',
         maxWidth: 600, // Max width for mood chart
         alignSelf: 'center',
         marginTop: 20, // Space above the mood chart
