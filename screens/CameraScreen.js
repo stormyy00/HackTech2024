@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Camera, CameraType  } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
-import { AuthContext } from '../context/AuthContext';
-
+import { getAuth } from 'firebase/auth';
 
 export default function App() { 
   let cameraRef = useRef();
+  const auth = getAuth();
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(CameraType.front);   // Default to front camera
 
@@ -44,7 +44,7 @@ export default function App() {
     const formData = new FormData();
     formData.append('file', {
       uri: newPhoto.uri,
-      name: '${currentUser.uid}',
+      name: 'Mood',
       type: 'image/jpeg'
     });
 
@@ -53,7 +53,7 @@ export default function App() {
       method: 'POST',
       headers: {
         'Content-Type': 'multipart/form-data',
-        'Username': 'Howard'  // Assuming your server expects this header
+        'Username': auth.currentUser.uid // Assuming your server expects this header
       },
       body: formData
     })
@@ -119,12 +119,14 @@ export default function App() {
   }
 
 
+
   return (
     <Camera style={styles.container} type={type} ref={cameraRef}>
     <View style={styles.buttonContainer}>
-      <Button title="Flip Camera" onPress={toggleCameraType} />
-      <Button title="Take Pic" onPress={takePic} />
+    <TouchableOpacity onPress={takePic} style={styles.captureButton}>
+    </TouchableOpacity>
     </View>
+    
     <StatusBar style="auto" />
   </Camera>
   );
@@ -139,12 +141,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttonContainer: {
-    backgroundColor: '#fff',
-    alignSelf: 'flex-end'
+  buttonContainer: {  
+    position: 'absolute', // Absolute positioning to place it over the camera view
+    bottom: 50, // Distance from the bottom of the screen
+    alignSelf: 'center', // Center horizontally in the bottom
   },
   preview: {
     alignSelf: 'stretch',
     flex: 1
-  }
+  },
+  captureButton: {
+    backgroundColor: '#FFF', // White background for the button
+    width: 70, // Width of the circle
+    height: 70, // Height of the circle
+    borderRadius: 35, // Half of either width or height to make it a perfect circle
+    justifyContent: 'center', // Align content inside (if any) vertically center
+    alignItems: 'center', // Align content inside (if any) horizontally center
+  },
 });

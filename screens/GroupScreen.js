@@ -1,30 +1,65 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { Input, Button, Card, Layout, Text, TabBar, Tab } from '@ui-kitten/components';
-import { getFirestore, collection, addDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, doc, updateDoc, arrayUnion, query, where, getDocs } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
-const JoinGroupScreen = () => {
-  const [joinCode, setJoinCode] = useState('');
 
-  return (
-    <Layout style={styles.container}>
-      <Card style={styles.card}>
-        <Text category='h4' style={styles.title}>Join a Group</Text>
-        <Input
-          value={joinCode}
-          label='Join Code'
-          placeholder='Enter join code'
-          onChangeText={setJoinCode}
-          style={styles.input}
-        />
-        <Button onPress={() => console.log('Joining group with:', joinCode)}>
-          Join Group
-        </Button>
-      </Card>
-    </Layout>
-  );
-};
+const JoinGroupScreen = () => {
+    const [joinCode, setJoinCode] = useState('');
+    const firestore = getFirestore();
+    const auth = getAuth();
+  
+    const handleJoinGroup = async () => {
+      if (!joinCode) {
+        console.log('Please enter a join code.');
+        return;
+      }
+  
+      // Query the groups collection for a group with the matching join code
+      const groupsRef = collection(firestore, "groups");
+      const q = query(groupsRef, where("joinCode", "==", joinCode));
+      
+      try {
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          // Assuming join codes are unique and there should be only one match
+          const groupDoc = querySnapshot.docs[0];
+          const groupId = groupDoc.id;
+  
+          // Add the current user's UID to the group's members array
+          const groupRef = doc(firestore, "groups", groupId);
+          await updateDoc(groupRef, {
+            members: arrayUnion(auth.currentUser.uid)
+          });
+  
+          console.log('Joined group successfully:', groupId);
+        } else {
+          console.log('No group found with that join code.');
+        }
+      } catch (error) {
+        console.error("Error joining group:", error);
+      }
+    };
+  
+    return (
+      <Layout style={styles.container}>
+        <Card style={styles.card}>
+          <Text category='h4' style={styles.title}>Join a Group</Text>
+          <Input
+            value={joinCode}
+            label='Join Code'
+            placeholder='Enter join code'
+            onChangeText={setJoinCode}
+            style={styles.input}
+          />
+          <Button onPress={handleJoinGroup}>
+            Join Group
+          </Button>
+        </Card>
+      </Layout>
+    );
+  };
 
 const generateJoinCode = () => {
     let result = '';
