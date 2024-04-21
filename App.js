@@ -7,6 +7,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import * as eva from '@eva-design/eva';
 import theme from './constants/theme.json';
 import { AuthProvider, AuthContext } from './context/AuthContext';
+import useNotificationSetup from './screens/utils/useNotificationSetup';
 
 import HomeScreen from './screens/HomeScreen';
 import CameraScreen from './screens/CameraScreen';

@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import * as Notifications from 'expo-notifications';
 
 export const AuthContext = createContext({});
 
@@ -14,6 +15,17 @@ export const AuthProvider = ({ children }) => {
     });
   
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    async function getNotificationPermission() {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== 'granted') {
+        alert('You need to enable notifications for this app to work.');
+      }
+    }
+
+    getNotificationPermission();
   }, []);
   
 

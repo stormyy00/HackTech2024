@@ -10,11 +10,6 @@ const LoginScreen = () => {
   const [error, setError] = useState('');
   const { currentUser, setCurrentUser } = useContext(AuthContext);
 
-  const validateEmail = (email) => {
-    const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return regex.test(email);
-  };
-
   const handleLogin = async () => {
     setError('');
     if (!validateEmail(email)) {
@@ -44,7 +39,7 @@ const LoginScreen = () => {
   placeholder='Enter your email'
   onChangeText={setEmail}
   style={styles.input}
-  autoCapitalize="none" 
+  autoCapitalize="none"  
   keyboardType="email-address"
 />
 
