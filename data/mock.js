@@ -2,57 +2,57 @@
 export const MOCK = [
     {
         name: "eliot",
-        emoji: ":c",
+        emoji: "😞",
         image : require('../assets/bitch.png')
     },
     {
         name: "sachin",
-        emoji: ":c",
+        emoji: "😀",
         image : require('../assets/swag.png')
     },
     {
         name: "kavin",
-        emoji: ":c",
+        emoji: "😐",
         image : require('../assets/bitch.png')
     },
     {
         name: "wot",
-        emoji: ":c",
+        emoji: "😞",
         image : require('../assets/swag.png')
     },  
     {
         name: "minor",
-        emoji: ":c",
+        emoji: "😀",
         image : require('../assets/bitch.png')
     },
     {
         name: "howard",
-        emoji: ":c",
+        emoji: "😐",
         image : require('../assets/swag.png')
     },
     {
         name: "monkey",
-        emoji: ":c",
+        emoji: "😐",
         image :require('../assets/bitch.png')
     },
     {
         name: "zzz",
-        emoji: ":c",
+        emoji: "😀",
         image : require('../assets/swag.png')
     },  
     {
         name: "pepe",
-        emoji: ":c",
+        emoji: "😐",
         image : require('../assets/bitch.png')
     },
     {
         name: "womp womp",
-        emoji: ":c",
+        emoji: "😞",
         image : require('../assets/swag.png')
     },
     {
         name: "dean",
-        emoji: ":c",
+        emoji: "😀",
         image : require('../assets/bitch.png')
     },
   
