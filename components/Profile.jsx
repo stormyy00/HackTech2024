@@ -71,7 +71,7 @@ import { useNavigation } from '@react-navigation/native';
                   style={{ width: 150, height: 250 }} />
                   <TouchableOpacity
                   title="" 
-                  onPressOut={() => openExpandedImage(item.image)} style={[styles.expandIconContainer]}
+                  onPressOut={navigation.navigate('UserProfile')} style={[styles.expandIconContainer]}
                   >
                 {/* Add your icon here, e.g., a magnifying glass icon */}
                 <Text>🔍</Text>
