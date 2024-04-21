@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity, Button } from "react-native";
-import { Audio, RecordingOptionsPresets } from "expo-av";
-import { FontAwesome } from '@expo/vector-icons'; // Assuming FontAwesome is imported properly
+import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
+import { Audio } from "expo-av";
+import { Button, Text, Icon, Card, Layout } from '@ui-kitten/components';
 
 export default function AudioScreen() {
   const [isRecording, setIsRecording] = useState(false);
@@ -14,7 +14,6 @@ export default function AudioScreen() {
     async function getPermission() {
       try {
         const permission = await Audio.requestPermissionsAsync();
-        console.log("Permission Granted: " + permission.granted);
         setAudioPermission(permission.granted);
       } catch (error) {
         console.log(error);
@@ -30,8 +29,6 @@ export default function AudioScreen() {
   }, []);
 
   async function handleRecordButtonPress() {
-    setRecordedAudio(null);
-    setRecording(null);
     if (recording) {
       const audioUri = await stopRecording(recording);
       if (audioUri) {
@@ -43,36 +40,21 @@ export default function AudioScreen() {
   }
 
   async function startRecording() {
+    if (isRecording || !audioPermission) {
+      return;
+    }
     setIsRecording(true);
     setRecording(null);
     setRecordedAudio(null);
 
-    // Check if a recording is already in progress
-    if (isRecording) {
-      console.warn("A recording is already in progress");
-      return;
-    }
-
-    // Check for permissions before starting the recording
-    if (!audioPermission) {
-      console.warn("Audio permission is not granted");
-      return;
-    }
     try {
-      // needed for IOS, If you develop mainly on IOS device or emulator, 
-      // there will be an error if you don't include this.
-      if (audioPermission) {
-        await Audio.setAudioModeAsync({
-          allowsRecordingIOS: true,
-          playsInSilentModeIOS: true,
-        });
-      }
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
 
       const newRecording = new Audio.Recording();
-      console.log("Starting Recording");
-      await newRecording.prepareToRecordAsync(
-        Audio.RecordingOptionsPresets.HIGH_QUALITY
-      );
+      await newRecording.prepareToRecordAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
       await newRecording.startAsync();
       setRecording(newRecording);
       setRecordingStatus("recording");
@@ -81,29 +63,6 @@ export default function AudioScreen() {
     }
   }
 
-  async function stopRecording() {
-    setIsRecording(false);
-    try {
-      if (recordingStatus === "recording") {
-        console.log("Stopping Recording");
-        await recording.stopAndUnloadAsync();
-        const uri = recording.getURI();
-
-        setRecordedAudio({
-          uri,
-          name: `recording-${Date.now()}.m4a`, // Change the file extension to .m4a
-          type: "audio/m4a", // Update the type to M4A
-        });
-
-        // reset our states to record again
-        setRecording(null);
-        setRecordingStatus("stopped");
-        return uri;
-      }
-    } catch (error) {
-      console.error("Failed to stop recording", error);
-    }
-  }
 
   async function handleSubmit() {
     try {
@@ -115,7 +74,6 @@ export default function AudioScreen() {
         }
 
         console.log("Recorded audio found:", recordedAudio);
-
         const { uri, name } = recordedAudio;
         console.log("URI:", uri);
         console.log("Name:", name);
@@ -123,24 +81,31 @@ export default function AudioScreen() {
         // Create a new FormData object
         const formData = new FormData();
 
-        // Fetch the file from the URI, create a Blob and append to FormData
-        const response = await fetch(uri);
-        const blob = await response.blob();
-        formData.append("file", blob, name);
+        // Append the file to FormData with proper file handling
+        // The react-native-fetch-blob or similar library might be needed if fetch does not handle local file URIs properly
+        // Here we assume the environment or library can handle the file URI directly.
+        // 'file' corresponds to the name expected by the server for the file part of the request
+        formData.append("file", {
+            uri: uri,
+            name: name,
+            type: 'audio/m4a' // Mime type of the file
+        });
 
         // Make a POST request to the server
         console.log("Sending POST request to server...");
         const fetchResponse = await fetch("http://apt.howard-zhu.com/upload", {
             method: "POST",
             headers: {
-                Username: "Howard" // Removed Content-Type header
+                "Content-Type": "multipart/form-data", // Explicitly declare the Content-Type for multipart
+                "Username": "Howard"
             },
             body: formData
         });
 
         console.log("Response received:", fetchResponse);
         if (!fetchResponse.ok) {
-            throw new Error("Failed to submit recorded audio.");
+            const errorResponse = await fetchResponse.text(); // Get the error message from the server
+            throw new Error(`Failed to submit recorded audio. Server responded: ${errorResponse}`);
         }
 
         console.log("Recorded audio submitted successfully.");
@@ -150,36 +115,82 @@ export default function AudioScreen() {
 }
 
 
-  
-  
-  
-  
+  async function stopRecording() {
+    setIsRecording(false);
+    if (recordingStatus === "recording") {
+      try {
+        await recording.stopAndUnloadAsync();
+        const uri = recording.getURI();
+        setRecordedAudio({ uri, name: `recording-${Date.now()}.m4a`, type: "audio/m4a" });
+        setRecording(null);
+        setRecordingStatus("stopped");
+        return uri;
+      } catch (error) {
+        console.error("Failed to stop recording", error);
+      }
+    }
+  }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.voiceContainer}>
-        <TouchableOpacity
-          style={styles.voiceButton}
-          onPress={handleRecordButtonPress}
-        >
-          <FontAwesome name="microphone" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
-      <Button title="Submit" onPress={handleSubmit} />
-    </View>
+    <Layout style={styles.container}>
+      <Card style={styles.card}>
+        <Text category='h1' style={styles.title}>RANT</Text>
+        <View style={styles.voiceContainer}>
+          <TouchableOpacity
+            style={styles.voiceButton}
+            onPress={handleRecordButtonPress}
+          >
+            <Icon name={isRecording ? "mic-off" : "mic"} fill="#FFFFFF" style={styles.icon} />
+          </TouchableOpacity>
+        </View>
+        <Button style={styles.submitButton} onPress={handleSubmit}>
+          Submit
+        </Button>
+      </Card>
+    </Layout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  voiceContainer: {
-    // Add your styles for the voice container
-  },
-  voiceButton: {
-    // Add your styles for the voice button
-  },
-});
+    container: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 20,
+      backgroundColor: '#FFCDB2',  // Use color-primary-100 as the background color
+    },
+    card: {
+      width: '100%',
+      maxWidth: 600,
+      padding: 20,
+      borderRadius: 20,
+      alignItems: 'center',
+      backgroundColor: '#FFB4A2',  // Use color-primary-200 for the card background
+    },
+    title: {
+      textAlign: "center",
+      marginBottom: 24,
+      color: '#7B4242',  // Use color-primary-900 for the text color
+    },
+    voiceContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      marginBottom: 24,
+    },
+    voiceButton: {
+      backgroundColor: "#FF6B6B",  // Use color-primary-500 for the button background
+      padding: 20,
+      borderRadius: 50,
+    },
+    icon: {
+      width: 32,
+      height: 32,
+      color: "#FFFFFF",  // Assuming you want the icon color to be white for contrast
+    },
+    submitButton: {
+      marginTop: 20,
+      backgroundColor: '#DB6B67',  // Use color-primary-600 for the submit button
+    }
+  });
+  
+

@@ -165,15 +165,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FBAB7E', // Your theme background color
     },
-    // ...existing styles
+    // Keep moodChartContainer in case it's used elsewhere
     moodChartContainer: {
-        width: '85%',
+        width: '100%',
         maxWidth: 600, // Max width for mood chart
         alignSelf: 'center',
         marginTop: 20, // Space above the mood chart
         marginBottom: 20, // Space below the mood chart
     },
-    // ...rest of the styles
     container: {
         flex: 1,
         padding: 20,
@@ -187,6 +186,8 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 10,
         elevation: 3, // Optional: adds shadow to card
+        alignSelf: 'center', // Ensure card is centered in its container
+        margin: 10, // Ensure there is space around the card
     },
     imageContainer: {
         alignItems: 'center',
@@ -194,9 +195,9 @@ const styles = StyleSheet.create({
         position: 'relative',
         backgroundColor: '#FFFFFF', // Use a contrasting color for the border
         borderRadius: 25, // Makes it fully rounded
-        padding: 0, // Adjust padding to control border thickness
         borderColor: '#FFB4A2', // Secondary color for the border
         borderWidth: 10, // Border thickness
+        margin: 10, // Added margin around the image container
     },
     image: {
         width: 190, // slightly less to account for padding
@@ -221,18 +222,21 @@ const styles = StyleSheet.create({
         color: 'red',
         marginTop: 10,
         textAlign: 'center',
+        margin: 10, // Added margin
     },
     nameContainer: {
         marginBottom: 16, // Add space between name and image
+        margin: 10, // Added margin
     },
     name: {
         fontSize: 34, // Large font size for the name
         fontWeight: 'bold', // Bold font weight for the name
         textAlign: 'center', // Center the name text
         color: '#333333', // Dark gray color for the text, which is softer than pure black
+        margin: 10, // Added margin
     },
-    
 });
+
 
 
 

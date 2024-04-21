@@ -105,7 +105,7 @@ const MoodChart = () => {
       <BarChart
         key={chartKey}
         data={moodData}
-        width={maxContentWidth - 82}
+        width={maxContentWidth - 142}
         height={220}
         yAxisThickness={0}
         xAxisThickness={0}
