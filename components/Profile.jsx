@@ -50,13 +50,13 @@ import { useNavigation } from '@react-navigation/native';
               <Animated.View style={[styles.cardContainer]} className="">
               {flippedIndex !== null && (
                 <TouchableOpacity onPress={() => navigation.navigate('User')} style={[styles.profileText]} className={`${flippedIndex !== index ? 'hidden' : 'text-blue-500 -mt-12 w-full flex flex-row justify-between items-center gap'}`}>
-                  <Image source={require('../assets/china.jpg')} className="w-9 h-9 rounded-3xl"/>
-                  <Text className="font-semibold">Time</Text>
+                  {/* <Image source={require('../assets/china.jpg')} className="w-9 h-9 rounded-3xl"/> */}
+                  {/* <Text className="font-semibold">Time</Text> */}
                 </TouchableOpacity>
               )}
               <View style={styles.face} className="align-middle mt-14 space-y-3" >
                 <View style={styles.userProfile}>
-                  <Image source={require('../assets/swag.png')} style={styles.profilePicture} className="ml-1.5 rounded-full" />
+                  <Image source={item.image} style={styles.profilePicture} className="ml-1.5 rounded-full" />
                 </View>
                 <View style={styles.userInfo} className="space-y-1 mr-2">
                   <Text style={styles.name}>{item.name}</Text>

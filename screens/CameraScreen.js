@@ -5,11 +5,13 @@ import { Camera, CameraType  } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 import { getAuth } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
 
 export default function App() { 
   let cameraRef = useRef();
   const auth = getAuth();
   const [type, setType] = useState(CameraType.front);   // Default to front camera
+  const navigation = useNavigation();
 
   const [isUploaded, setIsUploaded] = useState(false);
 
@@ -65,6 +67,7 @@ export default function App() {
     .then(data => {
       console.log('Success:', data);
       setIsUploaded(true);
+      navigation.navigate('Mood');
     })
     .catch((error) => {
       console.error('Error:', error);

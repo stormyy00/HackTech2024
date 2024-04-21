@@ -11,17 +11,17 @@ const LoginScreen = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
 
   const handleLogin = async () => {
+    console.log('Logging in with:', email, password);
     setError('');
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
+    console.log('validating email')
+    console.log('email validated')
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log('User logged in:', userCredential.user);
       setCurrentUser(userCredential.user); // Update current user state context
     } catch (error) {
+      console.log('Didn not work')
       setError("Invalid username/password combination.");
       console.error(error);
     }

@@ -1,32 +1,32 @@
 
 export const MOCK = [
     {
-        name: "eliot",
+        name: "Elliot",
         emoji: "😞",
-        image : require('../assets/bitch.png')
+        image : require('../assets/alex.jpeg')
     },
     {
-        name: "sachin",
+        name: "Sachin",
         emoji: "😀",
-        image : require('../assets/swag.png')
+        image : require('../assets/alf.jpeg')
     },
     {
-        name: "kavin",
+        name: "Divyank",
         emoji: "😐",
-        image : require('../assets/bitch.png')
+        image : require('../assets/reed.jpeg')
     },
     {
-        name: "wot",
+        name: "Eric",
         emoji: "😞",
-        image : require('../assets/swag.png')
+        image : require('../assets/eric.jpeg')
     },  
     {
-        name: "minor",
+        name: "John",
         emoji: "😀",
-        image : require('../assets/bitch.png')
+        image : require('../assets/jogn.jpeg')
     },
     {
-        name: "howard",
+        name: "Monkey",
         emoji: "😐",
         image : require('../assets/swag.png')
     },

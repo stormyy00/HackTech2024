@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import { Audio } from "expo-av";
 import { Button, Text, Icon, Card, Layout } from '@ui-kitten/components';
+import { useNavigation } from "@react-navigation/native";
 
 export default function AudioScreen() {
   const [isRecording, setIsRecording] = useState(false);
@@ -9,6 +10,7 @@ export default function AudioScreen() {
   const [recordingStatus, setRecordingStatus] = useState("idle");
   const [audioPermission, setAudioPermission] = useState(null);
   const [recordedAudio, setRecordedAudio] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     async function getPermission() {
@@ -107,6 +109,7 @@ export default function AudioScreen() {
             const errorResponse = await fetchResponse.text(); // Get the error message from the server
             throw new Error(`Failed to submit recorded audio. Server responded: ${errorResponse}`);
         }
+        navigation.navigate('Mood');
 
         console.log("Recorded audio submitted successfully.");
     } catch (error) {

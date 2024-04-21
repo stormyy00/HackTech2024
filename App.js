@@ -16,10 +16,13 @@ import GroupScreen from './screens/GroupScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import AudioScreen from './screens/AudioScreen';
+import MoodScreen from './screens/MoodScreen';
+import UserProfileScreen from './screens/UserProfileScreen';
 
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
 
 
 export default function App() {
@@ -40,6 +43,29 @@ export default function App() {
     </AuthProvider>
   );
 }
+
+const SequentialStack = createStackNavigator();
+
+function MySequentialNavigator() {
+  return (
+    <SequentialStack.Navigator initialRouteName="Camera">
+      <SequentialStack.Screen name="Camera" component={CameraScreen} />
+      <SequentialStack.Screen name="Audio" component={AudioScreen} />
+      <SequentialStack.Screen name="Mood" component={MoodScreen} />
+    </SequentialStack.Navigator>
+  );
+}
+
+function HomeSequentialNavigator() {
+  return (
+    <SequentialStack.Navigator initialRouteName="HomeScreen">
+
+      <SequentialStack.Screen name="HomeScreen" component={HomeScreen} />
+      <SequentialStack.Screen name="UserProfile" component={UserProfileScreen} />
+    </SequentialStack.Navigator>
+  );
+}
+
 
 function Navigation() {
   const { currentUser } = useContext(AuthContext);
@@ -63,9 +89,6 @@ function Navigation() {
               case 'Profile':
                 iconName = focused ? 'person' : 'person-outline';
                 break;
-              case 'Audio':
-                iconName = focused ? 'mic' : 'mic-outline';
-                break;
               default:
                 iconName = 'alert-circle-outline';
             }
@@ -76,11 +99,10 @@ function Navigation() {
           tabBarStyle: { backgroundColor: '#FFFFFF', borderTopWidth: 1, borderTopColor: '#E0E0E0' },
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Camera" component={CameraScreen} />
+        <Tab.Screen name="Home" component={HomeSequentialNavigator} options={{ title: 'Home' }} />
+        <Tab.Screen name="CameraFlow" component={MySequentialNavigator} options={{ title: 'Camera Flow' }} />
         <Tab.Screen name="Groups" component={GroupScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
-        <Tab.Screen name="Audio" component={AudioScreen} />
       </Tab.Navigator>
     );
   }

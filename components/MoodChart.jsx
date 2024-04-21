@@ -24,17 +24,22 @@ const MoodChart = () => {
     setChartKey(Date.now());
   };
 
-  const generateWeekData = () => {
+  const generateWeekData = (weekOffset) => {
+    const startOfWeek = new Date();
+    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() - 7 * weekOffset); // Start of week based on offset
+  
     return Array.from({ length: 7 }, (_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - i);
+      const date = new Date(startOfWeek);
+      date.setDate(date.getDate() + i);
+  
       return {
         value: Math.random() * 10, // Random value for demo
-        label: `${date.getMonth() + 1}/${date.getDate()}`,
+        label: `${date.getMonth() + 1}/${date.getDate()}`, // Corrected label
         frontColor: getEmotionColor(selectedEmotion),
       };
-    }).reverse();
+    });
   };
+  
 
   const getEmotionColor = (emotion) => {
     const colors = {
@@ -94,11 +99,11 @@ const MoodChart = () => {
         dropDownContainerStyle={styles.dropdownDropDownStyle}
       />
       <View style={styles.weekNavigation}>
-        <TouchableOpacity onPress={() => navigateWeeks(-1)} style={styles.navButton}>
+        <TouchableOpacity onPress={() => navigateWeeks(1)} style={styles.navButton}>
           <Icon name="arrow-ios-back-outline" fill="#8F9BB3" style={styles.icon} />
         </TouchableOpacity>
         <Text style={styles.weekLabel}>{getWeekLabel(currentWeekOffset)}</Text>
-        <TouchableOpacity onPress={() => navigateWeeks(1)} style={styles.navButton}>
+        <TouchableOpacity onPress={() => navigateWeeks(-1)} style={styles.navButton}>
           <Icon name="arrow-ios-forward-outline" fill="#8F9BB3" style={styles.icon} />
         </TouchableOpacity>
       </View>
