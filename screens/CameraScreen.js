@@ -116,12 +116,18 @@ export default function App() {
   }
 
 
+
   return (
     
     <Camera style={styles.container} ref={cameraRef}>
       <View style={styles.buttonContainer}>
         <Button title="Flip Camera" onPress={toggleCameraType} />
         <Button title="Take Pic" onPress={takePic} />
+
+             {/* <Camera/> */}
+            {/* <ProfilePicture/>
+            <Stats/> */}
+
       </View>
       <StatusBar style="auto" />
     </Camera>

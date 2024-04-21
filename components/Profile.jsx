@@ -1,7 +1,6 @@
-import { Button } from '@ui-kitten/components';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Animated, Image, Modal, TouchableWithoutFeedback } from 'react-native';
-import { Circle } from 'react-native-svg';
+
   
   const Profile = ({ mock }) => {
     const [flippedIndex, setFlippedIndex] = useState(null);
@@ -24,7 +23,7 @@ import { Circle } from 'react-native-svg';
         setFlippedIndex(index);
         Animated.timing(animatedValue, {
           toValue: 1,
-          duration: 500,
+          duration: 600,
           useNativeDriver: true,
         }).start();
       }
@@ -60,8 +59,8 @@ import { Circle } from 'react-native-svg';
                   style={{ width: 150, height: 250 }} />
                   <TouchableOpacity
                   title="" 
-                  pointerEvents="box-none"
-                  onPress={() => openExpandedImage(item.image)} style={[styles.expandIconContainer, {transform: [{ rotateY: animatedValue.interpolate({inputRange: [0, 1], outputRange: ['0deg', '180deg']})}]}]}>
+                  onPressOut={() => openExpandedImage(item.image)} style={[styles.expandIconContainer]}
+                  >
                 {/* Add your icon here, e.g., a magnifying glass icon */}
                 <Text>🔍</Text>
               </TouchableOpacity>
@@ -70,10 +69,10 @@ import { Circle } from 'react-native-svg';
             </TouchableOpacity>
           ))}
         </View>
-        <Modal visible={expandedImage !== null} transparent>
+        <Modal visible={expandedImage !== null} transparent className="">
         <TouchableWithoutFeedback onPress={closeExpandedImage}>
           <View style={styles.modalBackground}>
-            <Image source={expandedImage} resizeMode="contain" style={styles.expandedImage} />
+            <Image source={expandedImage} resizeMode="contain" className="w-11/12 h-full"/>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
@@ -109,9 +108,7 @@ import { Circle } from 'react-native-svg';
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.8,
-      shadowRadius: 2,
-      // Shadows for Android
-      elevation: 5,
+      shadowRadius: 1,
     },
     face: {
       flexDirection: 'column',
@@ -138,7 +135,6 @@ import { Circle } from 'react-native-svg';
     back: {
       position: 'absolute',
       backfaceVisibility: 'hidden',
-      backgroundColor: 'lightgray',
       borderRadius: 8,
       padding: 10,
       width: '90%',
@@ -155,8 +151,9 @@ import { Circle } from 'react-native-svg';
     },
     expandIconContainer: {
       position: 'absolute',
-      top: -3,
-      right: -2,
+      zIndex:2,
+      top: -4,
+      right: -1,
       backgroundColor: 'rgba(255, 255, 255, 0.5)',
       padding: 8,
       borderRadius: 20,
