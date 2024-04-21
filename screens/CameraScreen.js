@@ -9,14 +9,15 @@ import { getAuth } from 'firebase/auth';
 export default function App() { 
   let cameraRef = useRef();
   const auth = getAuth();
-  const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(CameraType.front);   // Default to front camera
+
   const [isUploaded, setIsUploaded] = useState(false);
 
 
-  const [hasCameraPermission, setHasCameraPermission] = useState();
+  const [ hasCameraPermission, setHasCameraPermission] = useState();
+
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] =  useState();
 
   useEffect(() => {
     (async () => {
@@ -36,6 +37,7 @@ export default function App() {
     let options = {
       quality: 0.1,
       base64: false,
+//commented out
       exif: false,
     };
     let newPhoto = await cameraRef.current.takePictureAsync(options);
@@ -43,6 +45,7 @@ export default function App() {
     
     
     const formData = new FormData();
+
     formData.append('file', {
       uri: newPhoto.uri,
       name: 'Mood.jpeg',
@@ -76,25 +79,6 @@ export default function App() {
   } else if (!hasCameraPermission) {
     return <Text>Permission for camera not granted. Please change this in settings.</Text>
   }
-
-  // let takePic = async () => {
-  //   let options = {
-  //     quality: 0.1,
-  //     base64: true,
-  //     exif: false
-  //   };
-  //   const db = getFirestore();
-
-  //   let newPhoto = await cameraRef.current.takePictureAsync(options);
-  //   const timestamp = new Date().toISOString().replace(/:/g, '-');  // Formatting timestamp to be file safe
-  //   await setDoc(doc(db, "users", timestamp), {
-  //     photo: newPhoto.base64,  // Storing only base64 string
-  //   });
-  //   console.log("Photo written to Firestore with timestamp:", timestamp);
-      // setPhoto(newPhoto);
-  // };
-  
-
 
     if (photo) {
       let sharePic = () => {
