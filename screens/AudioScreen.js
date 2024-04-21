@@ -79,6 +79,7 @@ export default function AudioScreen() {
         const { uri, name } = recordedAudio;
         console.log("URI:", uri);
         console.log("Name:", name);
+        navigation.navigate('Mood');
 
         // Create a new FormData object
         const formData = new FormData();
@@ -109,7 +110,7 @@ export default function AudioScreen() {
             const errorResponse = await fetchResponse.text(); // Get the error message from the server
             throw new Error(`Failed to submit recorded audio. Server responded: ${errorResponse}`);
         }
-        navigation.navigate('Mood');
+        
 
         console.log("Recorded audio submitted successfully.");
     } catch (error) {

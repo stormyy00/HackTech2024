@@ -44,6 +44,7 @@ export default function App() {
     };
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+    navigation.navigate('Audio');
     
     
     const formData = new FormData();
@@ -67,7 +68,7 @@ export default function App() {
     .then(data => {
       console.log('Success:', data);
       setIsUploaded(true);
-      navigation.navigate('Mood');
+      
     })
     .catch((error) => {
       console.error('Error:', error);
