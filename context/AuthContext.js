@@ -8,11 +8,14 @@ export const AuthProvider = ({ children }) => {
   const auth = getAuth(); // Assuming you have initialized Firebase elsewhere
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, user => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log("Auth state changed: ", user);
       setCurrentUser(user);
     });
-    return () => unsubscribe(); // Ensure to clean up the subscription
+  
+    return () => unsubscribe();
   }, []);
+  
 
   return (
     <AuthContext.Provider value={{ currentUser, setCurrentUser }}>

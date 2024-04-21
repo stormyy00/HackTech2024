@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   dropdownContainerStyle: {
-    width: maxContentWidth - 32, // Full width minus padding
+    width: maxContentWidth - 70, // Full width minus padding
     marginBottom: 20, // Space below the dropdown
     zIndex: 1000, // Ensure dropdown appears above other components
   },
