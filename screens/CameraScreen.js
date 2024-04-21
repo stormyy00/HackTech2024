@@ -11,6 +11,7 @@ export default function App() {
   const auth = getAuth();
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(CameraType.front);   // Default to front camera
+  const [isUploaded, setIsUploaded] = useState(false);
 
 
   const [hasCameraPermission, setHasCameraPermission] = useState();
@@ -37,10 +38,10 @@ export default function App() {
       base64: false,
       exif: false,
     };
-
-    
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+    
+    
     const formData = new FormData();
     formData.append('file', {
       uri: newPhoto.uri,
@@ -60,6 +61,7 @@ export default function App() {
     .then(response => response.text())
     .then(data => {
       console.log('Success:', data);
+      setIsUploaded(true);
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -93,12 +95,13 @@ export default function App() {
   // };
   
 
-  if (photo) {
-    let sharePic = () => {
-      shareAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      });
-    };
+
+    if (photo) {
+      let sharePic = () => {
+        shareAsync(photo.uri).then(() => {
+          setPhoto(undefined);
+        });
+      };
 
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
@@ -108,11 +111,13 @@ export default function App() {
 
     return (
       <SafeAreaView style={styles.container}>
-        
-        <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+        <View style={styles.uploadMessageContainer}>
+        <Text style={styles.uploadMessage}>Picture Uploaded</Text>
+      </View>
+        {/* <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
         <Button title="Share" onPress={sharePic} />
         {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
+        <Button title="Discard" onPress={() => setPhoto(undefined)} /> */}
       </SafeAreaView>
     );
     
@@ -126,7 +131,9 @@ export default function App() {
     <TouchableOpacity onPress={takePic} style={styles.captureButton}>
     </TouchableOpacity>
     </View>
+      
     
+
     <StatusBar style="auto" />
   </Camera>
   );
@@ -157,5 +164,18 @@ const styles = StyleSheet.create({
     borderRadius: 35, // Half of either width or height to make it a perfect circle
     justifyContent: 'center', // Align content inside (if any) vertically center
     alignItems: 'center', // Align content inside (if any) horizontally center
+  },
+  uploadMessage: {
+    color: 'white',
+    fontSize: 16,
+  },
+  uploadMessageContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -70 }, { translateY: -50 }],
+    padding: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderRadius: 10,
   },
 });
