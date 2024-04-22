@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, KeyboardAvoidingView, Platform, Text } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Platform, Text, Image } from 'react-native';
 import { Input, Button, Card } from '@ui-kitten/components';
 import { AuthContext } from '../context/AuthContext';
 import { auth, signInWithEmailAndPassword } from '../config/FirebaseConfig';
@@ -7,66 +7,45 @@ import { auth, signInWithEmailAndPassword } from '../config/FirebaseConfig';
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // State to store and display the error message
+  const [error, setError] = useState('');
   const { currentUser, setCurrentUser } = useContext(AuthContext);
 
-  // Validate email format
-  const validateEmail = (email) => {
-    const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return regex.test(email);
-  };
-
   const handleLogin = async () => {
-    setError(''); // Clear any existing errors
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
+    console.log('Logging in with:', email, password);
+    setError('');
+    console.log('validating email')
+    console.log('email validated')
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log('User logged in:', userCredential.user);
       setCurrentUser(userCredential.user); // Update current user state context
     } catch (error) {
-      let errorMessage = "Invalid username/password combination.";
-      if (error.code === 'auth/user-not-found') {
-        errorMessage = "No user found with this email.";
-      } else if (error.code === 'auth/wrong-password') {
-        errorMessage = "Incorrect password. Please try again.";
-      } else if (error.code === 'auth/invalid-email') {
-        errorMessage = "Invalid email format.";
-      }
-      setError(errorMessage); // Set the error message to display
+      console.log('Didn not work')
+      setError("Invalid username/password combination.");
+      console.error(error);
     }
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={styles.container} 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Card style={styles.card}>
-        <Text category='h1' style={styles.title}>MOOD</Text>
+        <View style={styles.logoContainer}>
+          <Image source={require('../assets/MoodLogo.png')} style={styles.logo} />
+        </View>
         <Input
-          value={email}
-          label='Email'
-          placeholder='Enter your email'
-          onChangeText={setEmail}
-          style={styles.input}
-        />
-        <Input
-          value={password}
-          label='Password'
-          placeholder='Enter your password'
-          secureTextEntry
-          onChangeText={setPassword}
-          style={styles.input}
-        />
-        {/* Display error message here */}
+  value={email}
+  label='Email'
+  placeholder='Enter your email'
+  onChangeText={setEmail}
+  style={styles.input}
+  autoCapitalize="none"  
+  keyboardType="email-address"
+/>
+
+        <Input value={password} label='Password' placeholder='Enter your password' secureTextEntry onChangeText={setPassword} style={styles.input} />
         {error ? <Text style={styles.error}>{error}</Text> : null}
-        <Button onPress={handleLogin} style={styles.button}>
-          LOGIN
-        </Button>
+        <Button onPress={handleLogin} style={styles.button}>LOGIN</Button>
       </Card>
     </KeyboardAvoidingView>
   );
@@ -78,9 +57,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FBAB7E',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20,
   },
   card: {
-    width: '90%',
+    width: '100%',
     maxWidth: 500,
     padding: 16,
     borderRadius: 10,
@@ -89,23 +69,29 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
+    alignItems: 'stretch',
   },
-  title: {
-    textAlign: 'center',
+  logoContainer: {
+    alignItems: 'center', // This will center the logo horizontally
     marginBottom: 24,
-    fontFamily: 'AvenirNext-DemiBold',
+  },
+  logo: {
+    width: 200,
+    height: 100,
+    resizeMode: 'contain',
   },
   input: {
+    width: '100%',
     marginBottom: 16,
   },
   button: {
+    width: '100%',
     marginTop: 8,
   },
   error: {
-    color: 'red', // Make the error text red for visibility
-    marginBottom: 10, // Space between the error message and the button
-  },
+    color: 'red',
+    marginBottom: 10,
+  }
 });
 
 export default LoginScreen;
-

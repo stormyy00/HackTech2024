@@ -16,7 +16,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.WeatherApp"
+      "bundleIdentifier": "com.anonymous.WeatherApp",
+      "infoPlist": {
+        "NSUserNotificationUsageDescription": "This app would like to send you notifications."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -28,5 +31,8 @@
     "web": {
       "favicon": "./assets/favicon.png"
     }
+    
   }
+  
 }
+
