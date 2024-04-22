@@ -16,13 +16,13 @@ app = firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
-f = open("./upload/Howard/test.txt")
-text = f.read()
-f.close()
+# f = open("./upload/Howard/test.txt")
+# text = f.read()
+# f.close()
 
-f = open("./upload/Howard/test.json")
-data = json.load(f)
-f.close()
+# f = open("./upload/Howard/test.json")
+# data = json.load(f)
+# f.close()
 
 # # https://www.geeksforgeeks.org/how-to-convert-datetime-to-unix-timestamp-in-python/
 # date = datetime.datetime.utcnow()
@@ -44,6 +44,17 @@ def upload_text_analysis(doc_id, raw_text, json_analysis):
     date = datetime.datetime.utcnow()
     utc_time = calendar.timegm(date.utctimetuple())
     new_data = {"source": "text", "text": raw_text, "timestamp": utc_time}
+    json_analysis.update(new_data)
+
+    doc_ref = db.collection("users").document(doc_id)
+    
+    doc_ref.update({"userMoods": firestore.ArrayUnion([json_analysis])})
+    return True
+
+def upload_audio_analysis(doc_id, raw_text, json_analysis):
+    date = datetime.datetime.utcnow()
+    utc_time = calendar.timegm(date.utctimetuple())
+    new_data = {"source": "audio", "text": raw_text, "timestamp": utc_time}
     json_analysis.update(new_data)
 
     doc_ref = db.collection("users").document(doc_id)

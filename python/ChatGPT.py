@@ -24,7 +24,7 @@ Positive
 - Excitement
 - Love
 
-Your response should include the top 3 emotions, their parent category, and confidence level expressed as a decimal. Format this output as a JSON file with the following exmaple strucutre:
+Your response should include all 13 emotions, their parent category, and confidence level expressed as a decimal. Format this output as a JSON file with the following exmaple strucutre:
 {
   "mood": [
     {
@@ -41,7 +41,8 @@ Your response should include the top 3 emotions, their parent category, and conf
       "category": "Positive",
       "emotion": "Excitement",
       "confidence": 0.70
-    }
+    },
+    and so on
   ]
 }
 You may not say anything else.
@@ -67,7 +68,7 @@ Positive
 - Excitement
 - Love
 
-Your response should include the top 3 emotions, their parent category, and confidence level expressed as a decimal. Format this output as a JSON file with the following exmaple strucutre:
+Your response should include all 13 emotions, their parent category, and confidence level expressed as a decimal. Format this output as a JSON file with the following exmaple strucutre:
 {
   "mood": [
     {
@@ -84,7 +85,8 @@ Your response should include the top 3 emotions, their parent category, and conf
       "category": "Positive",
       "emotion": "Excitement",
       "confidence": 0.70
-    }
+    },
+    and so on
   ]
 }
 You may not say anything else.
@@ -127,8 +129,9 @@ def image_prompt(image_url):
       ],
       model="gpt-4-vision-preview",
   )
+  print(chat_completion.choices[0].message.content[7:-4])
   return json.loads(chat_completion.choices[0].message.content[7:-4])
 
 cwd = os.getcwd()
 
-# image_prompt("http://apt.howard-zhu.com/files/Howard/test.jpg")
+# print(image_prompt("http://apt.howard-zhu.com/files/Howard/currentUser.uid.jpeg"))

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define variables
-# FILE="test.wav"
-FILE="test.jpg"
+FILE="test.wav"
+# FILE="test.jpg"
 SERVER_URL="http://127.0.0.1:5000/upload"
 
 # Check if test.txt exists
@@ -12,4 +12,4 @@ if [ ! -f "$FILE" ]; then
 fi
 
 # Use curl to upload the file
-curl -X POST -H "Username: Howard" -F "file=@${FILE}" $SERVER_URL
+curl -X POST -H "Username: VTJ3jowobQZW3ViZQX2P3FNWdji1" -v  -F "file=@${FILE}" $SERVER_URL

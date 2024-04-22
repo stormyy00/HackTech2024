@@ -1,4 +1,5 @@
 import sys
+import json
  
 # setting path
 sys.path.append('../')
@@ -7,4 +8,4 @@ sys.path.append('../')
 from ChatGPT import *
 
 
-print(image_prompt("http://apt.howard-zhu.com/files/Howard/test.jpg"))
+json_data = image_prompt("http://apt.howard-zhu.com/files/Howard/currentUser.uid.jpeg")
