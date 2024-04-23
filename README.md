@@ -8,11 +8,11 @@ Our app allows users to share a snapshot of their current feelings. Rather than 
 
 ## Screenshots
 
-![Audio Upload](/moodscreenshots/AudioUpload.PNG "Audio Upload Feature")
-![Detailed Mood](/moodscreenshots/DetailedMood.PNG "Detailed Mood View")
-![Mood Logo](/moodscreenshots/MoodLogo.png "Mood App Logo")
-![Stat Check](/moodscreenshots/StatCheck.PNG "Mood Statistics")
-![View Friends Mood](/moodscreenshots/ViewFriendsMood.PNG "Viewing Friends' Mood")
+<img src="/moodscreenshots/AudioUpload.PNG" alt="Audio Upload Feature" title="Audio Upload Feature" width="200"/>
+<img src="/moodscreenshots/DetailedMood.PNG" alt="Detailed Mood View" title="Detailed Mood View" width="200"/>
+<img src="/moodscreenshots/MoodLogo.png" alt="Mood App Logo" title="Mood App Logo" width="200"/>
+<img src="/moodscreenshots/StatCheck.PNG" alt="Mood Statistics" title="Mood Statistics" width="200"/>
+<img src="/moodscreenshots/ViewFriendsMood.PNG" alt="Viewing Friends' Mood" title="Viewing Friends' Mood" width="200"/>
 
 # How We Built It
 
